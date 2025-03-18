@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Helpdesk Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            outline: none;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            width: 100%;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .response-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e6f7e6;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚖 Transport Helpdesk Chatbot</h1>
+
+        <label for="userName">Your Name</label>
+        <input type="text" id="userName" placeholder="Enter your name..." />
+
+        <label for="choice">Select a Query</label>
+        <select id="choice">
+            <option value="1">Address Update</option>
+            <option value="2">No-Show Policy</option>
+            <option value="3">Profile Suspension</option>
+            <option value="4">Transport Charges</option>
+            <option value="5">Cab Booking/Cancellation</option>
+            <option value="6">Other Queries</option>
+            <option value="7">Exit</option>
+        </select>
+
+        <button onclick="getResponse()">Submit</button>
+
+        <div class="response-box" id="response"></div>
+    </div>
+
+    <script>
+        async function getResponse() {
+            const userName = document.getElementById("userName").value || "User";
+            const choice = parseInt(document.getElementById("choice").value);
+
+            const response = await fetch("/chatbot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_name: userName, choice: choice })
+            });
+
+            const data = await response.json();
+            document.getElementById("response").innerText = data.response;
+        }
+    </script>
+</body>
+</html>
