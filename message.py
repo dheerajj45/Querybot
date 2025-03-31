@@ -41,4 +41,7 @@ def chatbot():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    # Default to 10000 if PORT is not set
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
